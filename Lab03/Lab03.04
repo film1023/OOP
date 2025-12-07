@@ -1,30 +1,62 @@
+// คลาส Product ใช้เก็บข้อมูลของสินค้าแต่ละชิ้น
+// เหตุผล: ใช้ static productCount เพื่อเก็บจำนวนสินค้ารวมจากทุกออบเจ็กต์
 class Product {
 
     private String name;
-    private static int productCount = 0; 
+    private static int productCount = 0;   // นับจำนวนสินค้าที่ถูกสร้างทั้งหมด
+
+    // เหตุผล: คอนสตรัคเตอร์จะเพิ่มตัวนับเมื่อสร้างสินค้าใหม่
     public Product(String name) {
         this.name = name;
         productCount++;
     }
+
     public String getName() {
         return name;
     }
+
+    // เหตุผล: static method ใช้อ่านค่าตัวนับโดยไม่ต้องมีออบเจ็กต์
     public static int getProductCount() {
         return productCount;
     }
 }
+
 public class Lab3_04 {
-    public static void main(String[] args) {
-        java.util.Scanner scanner = new java.util.Scanner(System.in);
+
+    // ฟังก์ชันรับจำนวนสินค้า พร้อมตรวจ input
+    // เหตุผล: แยกฟังก์ชันเพื่อให้โค้ดอ่านง่ายขึ้น และเพิ่มความเสถียร
+    private static int readProductAmount(java.util.Scanner scanner) {
         System.out.print("กรุณาป้อนจำนวนสินค้าที่ต้องการสร้าง: ");
-        int N = scanner.nextInt();
-        scanner.nextLine(); 
-        for (int i = 0; i < N; i++) {
-            System.out.print("ป้อนชื่อสินค้าชิ้นที่ " + (i + 1) + ": ");
-            String productName = scanner.nextLine();
-            new Product(productName);
+
+        // เหตุผล: ตรวจ input เพื่อป้องกันค่าที่ไม่ใช่ตัวเลข
+        while (!scanner.hasNextInt()) {
+            System.out.print("ป้อนเลขจำนวนเต็มเท่านั้น: ");
+            scanner.next();
         }
+        return scanner.nextInt();
+    }
+
+    public static void main(String[] args) {
+
+        java.util.Scanner scanner = new java.util.Scanner(System.in);
+
+        int N = readProductAmount(scanner);
+        scanner.nextLine();     // ล้าง buffer
+
+        // เหตุผล: วนรับชื่อสินค้าและสร้างออบเจ็กต์ Product
+        for (int i = 0; i < N; i++) {
+
+            System.out.print("ป้อนชื่อสินค้าชิ้นที่ " + (i + 1) + ": ");
+            String name = scanner.nextLine();
+
+            // เหตุผล: ไม่ต้องเก็บออบเจ็กต์ เพราะต้องการนับจำนวนเท่านั้น
+            new Product(name);
+        }
+
         scanner.close();
-        System.out.println("จำนวนสินค้าทั้งหมดที่สร้าง: " + Product.getProductCount());
+
+        // แสดงจำนวนสินค้าทั้งหมดที่ถูกสร้าง
+        System.out.println("จำนวนสินค้าทั้งหมดที่สร้าง: "
+                + Product.getProductCount());
     }
 }
