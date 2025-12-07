@@ -1,50 +1,46 @@
 class Product {
-    // Attribute ของ Instance: เก็บชื่อสินค้า
+    
     private String name;
     
-    // Attribute ของ Class (Static): นับจำนวนสินค้าทั้งหมด
     private static int productCount = 0;
     
-    /**
-     * Constructor สำหรับสร้างออบเจ็กต์ Product
-     * @param name ชื่อสินค้า
-     */
     public Product(String name) {
+        
         this.name = name;
+        
         productCount++;
     }
+    
     public String getName() {
+        
         return name;
     }
+    
     public static int getProductCount() {
+        
         return productCount;
     }
 }
+
 public class Lab3_04 {
+    
     public static void main(String[] args) {
-        // สร้าง Scanner object สำหรับรับข้อมูลจากผู้ใช้
+        
         java.util.Scanner scanner = new java.util.Scanner(System.in);
         
-        // รับจำนวนสินค้าที่จะสร้าง (N)
         int N = scanner.nextInt();
         
-        // ใช้ nextLine() เพื่ออ่าน newline หลังจาก nextInt()
         scanner.nextLine();
         
-        // วนลูปสร้างสินค้าทั้ง N รายการ
         for (int i = 0; i < N; i++) {
-            // รับชื่อสินค้า
+            
             String productName = scanner.nextLine();
             
-            // สร้างออบเจ็กต์ Product ใหม่
-            // Constructor จะเพิ่มค่า productCount ให้อัตโนมัติ
             new Product(productName);
         }
         
-        // แสดงผลจำนวนสินค้าทั้งหมดโดยเรียกใช้เมธอด static
         System.out.println(Product.getProductCount());
         
-        // ปิด Scanner เพื่อปล่อยทรัพยากร
         scanner.close();
     }
 }
