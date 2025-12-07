@@ -1,43 +1,58 @@
 class User3 {
-    // กำหนดให้ password เป็น private เพื่อป้องกันการเข้าถึงโดยตรงจากภายนอกคลาส
+    
     private String password;
+    
     public User3(String initialPassword) {
-        // ตามโจทย์กำหนดว่ารหัสผ่านเริ่มต้นถูกต้องเสมอ
+        
         this.password = initialPassword;
     }
+    
     public String getPassword() {
+        
         return password;
     }
+    
     public void setPassword(String newPassword) {
-        // ตรวจสอบเงื่อนไขตามกฎการตั้งรหัสผ่าน
-        // รหัสผ่านต้องมีความยาว 8 ตัวอักษรขึ้นไป
-        if (newPassword.length() >= 8) {
-            // อัปเดตรหัสผ่านเป็นค่าใหม่
+        
+        boolean isLengthValid = newPassword.length() >= 8;
+        boolean isLongerThanCurrent = newPassword.length() > this.password.length();
+        
+        if (isLengthValid && isLongerThanCurrent) {
+            
             this.password = newPassword;
-            // แสดงข้อความว่าอัปเดตสำเร็จ
+            
             System.out.println("Password updated.");
-        } else {
-            // ไม่อัปเดตรหัสผ่านและแสดงข้อความว่าสั้นเกินไป
-            System.out.println("Password is too short.");
+        } 
+        else {
+            
+            if (newPassword.length() < 8) {
+                
+                System.out.println("Password is too short.");
+            } 
+            else if (newPassword.length() <= this.password.length()) {
+                
+                System.out.println("New password must be longer than the current password.");
+            }
         }
     }
 }
+
 public class Lab3_03 {
+    
     public static void main(String[] args) {
-        // สร้าง Scanner object สำหรับรับข้อมูลจากผู้ใช้
+        
         java.util.Scanner scanner = new java.util.Scanner(System.in);
-        // อ่านรหัสผ่านเริ่มต้นจากผู้ใช้ (บรรทัดแรก)
+        
         String initialPassword = scanner.nextLine();
-        // อ่านรหัสผ่านใหม่ที่ต้องการตั้งจากผู้ใช้ (บรรทัดที่สอง)
+        
         String newPassword = scanner.nextLine();
-        // สร้างออบเจ็กต์ User โดยใช้รหัสผ่านเริ่มต้น
+        
         User3 user = new User3(initialPassword);
-        // เรียกใช้เมธอด setPassword() เพื่อพยายามตั้งรหัสผ่านใหม่
-        // เมธอดนี้จะแสดงผลเองตามเงื่อนไข
+        
         user.setPassword(newPassword);
-        // แสดงผลรหัสผ่านปัจจุบันที่เก็บอยู่ในออบเจ็กต์
+        
         System.out.println(user.getPassword());
-        // ปิด Scanner เพื่อปล่อยทรัพยากร
+        
         scanner.close();
     }
 }
