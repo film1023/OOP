@@ -1,6 +1,7 @@
 class Product {
+
     private String name;
-    private static int productCount = 0;
+    private static int productCount = 0; 
     public Product(String name) {
         this.name = name;
         productCount++;
@@ -17,7 +18,7 @@ public class Lab3_04 {
         java.util.Scanner scanner = new java.util.Scanner(System.in);
         System.out.print("กรุณาป้อนจำนวนสินค้าที่ต้องการสร้าง: ");
         int N = scanner.nextInt();
-        scanner.nextLine();
+        scanner.nextLine(); 
         for (int i = 0; i < N; i++) {
             System.out.print("ป้อนชื่อสินค้าชิ้นที่ " + (i + 1) + ": ");
             String productName = scanner.nextLine();
