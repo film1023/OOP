@@ -1,0 +1,42 @@
+import java.util.Scanner;
+
+class Book {
+    private String title;
+    private String author;
+
+    public Book(String title) {
+        this.title = title;
+        this.author = "Unknown";
+    }
+
+    public Book(String title, String author) {
+        this.title = title;
+        this.author = author;
+    }
+
+    public void displayInfo() {
+        System.out.println("Title: " + title + ", Author: " + author);
+    }
+}
+
+public class Lab4_01 {
+    public static void main(String[] args) {
+        java.util.Scanner scanner = new java.util.Scanner(System.in);
+
+        int mode = scanner.nextInt();
+        scanner.nextLine(); // รับ newline
+
+        if (mode == 1) {
+            String title = scanner.nextLine();
+            Book book = new Book(title);
+            book.displayInfo();
+        } else if (mode == 2) {
+            String title = scanner.nextLine();
+            String author = scanner.nextLine();
+            Book book = new Book(title, author);
+            book.displayInfo();
+        }
+
+        scanner.close();
+    }
+}
