@@ -4,16 +4,19 @@ class Book {
     private String title;
     private String author;
 
+    // Constructor 1: รับเฉพาะชื่อหนังสือ
     public Book(String title) {
         this.title = title;
         this.author = "Unknown";
     }
 
+    // Constructor 2: รับทั้งชื่อหนังสือและผู้แต่ง
     public Book(String title, String author) {
         this.title = title;
         this.author = author;
     }
 
+    // แสดงข้อมูลหนังสือ
     public void displayInfo() {
         System.out.println("Title: " + title + ", Author: " + author);
     }
@@ -21,16 +24,20 @@ class Book {
 
 public class Lab4_01 {
     public static void main(String[] args) {
-        java.util.Scanner scanner = new java.util.Scanner(System.in);
+        Scanner scanner = new Scanner(System.in);
 
+        // รับโหมดการทำงาน
         int mode = scanner.nextInt();
-        scanner.nextLine(); // รับ newline
+        scanner.nextLine(); // เคลียร์ buffer
 
         if (mode == 1) {
+            // โหมด 1: รับเฉพาะชื่อหนังสือ
             String title = scanner.nextLine();
             Book book = new Book(title);
             book.displayInfo();
+            
         } else if (mode == 2) {
+            // โหมด 2: รับทั้งชื่อหนังสือและผู้แต่ง
             String title = scanner.nextLine();
             String author = scanner.nextLine();
             Book book = new Book(title, author);
