@@ -7,35 +7,36 @@ class Product {
     public Product(String name) {
         this(name, 0.0);
     }
+
     public Product(String name, double price) {
         this.name = name;
         this.price = price;
     }
+
     public void displayInfo() {
         System.out.println("Product: " + name + ", Price: " + price);
     }
 }
+
 public class Lab4_02 {
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        int mode = scanner.nextInt();
-        scanner.nextLine();
-        Product product;
+        Scanner sc = new Scanner(System.in);
+
+        int mode = sc.nextInt();
+        sc.nextLine(); 
+
         if (mode == 1) {
-            System.out.print("");
-            String name = scanner.nextLine();
-            product = new Product(name);
-        } else if (mode == 2) {
-            System.out.print("");
-            String name = scanner.nextLine();
-            double price = scanner.nextDouble();
-            product = new Product(name, price);
-        } else {
-            System.out.println("โหมดไม่ถูกต้อง");
-            scanner.close();
-            return;
+            String name = sc.nextLine();
+            Product p1 = new Product(name);
+            p1.displayInfo();
+        } 
+        else if (mode == 2) {
+            String name = sc.nextLine();
+            double price = sc.nextDouble();
+            Product p2 = new Product(name, price);
+            p2.displayInfo();
         }
-        product.displayInfo();
-        scanner.close();
+
+        sc.close();
     }
 }
