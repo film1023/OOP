@@ -1,10 +1,12 @@
+import java.util.Scanner;
+
 class Player {
     private String username;
     private int level;
 
     public Player() {
-        this.username = "Guest";
-        this.level = 1;
+        username = "Guest";
+        level = 1;
     }
 
     public Player(String username, int level) {
@@ -19,21 +21,22 @@ class Player {
 
 public class Lab4_03 {
     public static void main(String[] args) {
-        java.util.Scanner scanner = new java.util.Scanner(System.in);
-        
+        Scanner scanner = new Scanner(System.in);
+
         int mode = scanner.nextInt();
-        scanner.nextLine(); // อ่าน newline ที่เหลือ
-        
+        scanner.nextLine();
+
+        Player player;
+
         if (mode == 1) {
-            Player player = new Player();
-            player.displayProfile();
-        } else if (mode == 2) {
+            player = new Player();
+        } else {
             String username = scanner.nextLine();
             int level = scanner.nextInt();
-            Player player = new Player(username, level);
-            player.displayProfile();
+            player = new Player(username, level);
         }
-        
+
+        player.displayProfile();
         scanner.close();
     }
 }
