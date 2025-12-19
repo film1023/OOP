@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.Scanner;
 
 class AuditRecord {
@@ -5,32 +6,22 @@ class AuditRecord {
     private final String[] logMessages;
     private static int maxMessages = 3;
 
-    // Simple Constructor (chaining)
     public AuditRecord(String user) {
         this(user, new String[0]);
     }
 
-    // Main Constructor (with deep copy)
     public AuditRecord(String user, String[] logs) {
         this.user = user;
-        
         if (logs.length > maxMessages) {
-            // เก็บเฉพาะข้อความล่าสุดจำนวน maxMessages เท่านั้น
-            this.logMessages = new String[maxMessages];
-            int startIndex = logs.length - maxMessages;
-            for (int i = 0; i < maxMessages; i++) {
-                this.logMessages[i] = logs[startIndex + i];
-            }
+            this.logMessages = Arrays.copyOfRange
+            		(logs, logs.length - maxMessages, logs.length);
         } else {
-            // Deep copy ของ array
-            this.logMessages = new String[logs.length];
-            for (int i = 0; i < logs.length; i++) {
-                this.logMessages[i] = logs[i];
-            }
+            this.logMessages = Arrays.copyOf
+            		(logs, logs.length);
         }
     }
 
-    public static void setMaxMessages(int max) {
+    public static void setPolicy(int max) {
         if (max > 0) {
             maxMessages = max;
             System.out.println("Policy set to " + max);
@@ -41,19 +32,10 @@ class AuditRecord {
 
     public AuditRecord addMessage(String message) {
         if (logMessages.length < maxMessages) {
-            // สร้าง array ใหม่ที่ใหญ่ขึ้น
-            String[] newLogs = new String[logMessages.length + 1];
-            
-            // คัดลอกข้อความเดิม
-            for (int i = 0; i < logMessages.length; i++) {
-                newLogs[i] = logMessages[i];
-            }
-            
-            // เพิ่มข้อความใหม่
-            newLogs[logMessages.length] = message;
+            String[] newLogs = Arrays.copyOf
+            		(logMessages, logMessages.length + 1);
+            newLogs[newLogs.length - 1] = message;
             System.out.println(message + " added.");
-            
-            // สร้าง AuditRecord ใหม่
             return new AuditRecord(this.user, newLogs);
         } else {
             System.out.println("Log is full.");
@@ -62,52 +44,42 @@ class AuditRecord {
     }
 
     public void displayLog() {
-        System.out.print("User: " + user + ", Logs: " + logMessages.length + " [");
-        for (int i = 0; i < logMessages.length; i++) {
-            System.out.print(logMessages[i]);
-            if (i < logMessages.length - 1) {
-                System.out.print(", ");
-            }
-        }
-        System.out.println("]");
+        System.out.print("User: " + user + ", Logs: " + logMessages.length + " ");
+        System.out.println(Arrays.toString(logMessages));
     }
 }
+
 public class Lab4_15 {
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        
-        // รับนโยบาย max
-        int max = scanner.nextInt();
-        scanner.nextLine(); // อ่าน newline
-        AuditRecord.setMaxMessages(max);
-        
-        // รับชื่อผู้ใช้
-        String user = scanner.nextLine();
-        
-        // รับจำนวนคำสั่ง LOG
-        int N = scanner.nextInt();
-        scanner.nextLine(); // อ่าน newline
-        
-        AuditRecord record = new AuditRecord(user);
-        
-        // วนลูปรับข้อความ Log
-        for (int i = 0; i < N; i++) {
-            String input = scanner.nextLine();
-            
-            // ตรวจสอบว่าเป็นคำสั่ง SET_POLICY หรือไม่
-            if (input.equals("SET_POLICY")) {
-                int newPolicy = scanner.nextInt();
-                scanner.nextLine(); // อ่าน newline
-                AuditRecord.setMaxMessages(newPolicy);
-            } else {
-                // ถ้าเป็นข้อความ log ปกติ
-                record = record.addMessage(input);
+        Scanner sc = new Scanner(System.in);
+
+        if (sc.hasNextInt()) {
+            AuditRecord.setPolicy(sc.nextInt());
+        }
+        sc.nextLine();
+
+        String username = sc.nextLine();
+        AuditRecord record = new AuditRecord(username);
+
+        if (sc.hasNextInt()) {
+            int n = sc.nextInt();
+            sc.nextLine();
+
+            for (int i = 0; i < n; i++) {
+                String input = sc.nextLine();
+                if (input.equals("SET_POLICY")) {
+                    if (sc.hasNextInt()) {
+                        int newMax = sc.nextInt();
+                        sc.nextLine();
+                        AuditRecord.setPolicy(newMax);
+                    }
+                } else {
+                    record = record.addMessage(input);
+                }
             }
         }
-        
-        // แสดงผลลัพธ์
+
         record.displayLog();
-        
-        scanner.close();
+        sc.close();
     }
 }
