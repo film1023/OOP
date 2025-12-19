@@ -1,15 +1,16 @@
+import java.util.Scanner;
+
 class ScoreBoard {
     private final String gameName;
     private final int[] scores;
 
     public ScoreBoard(String gameName, int[] scores) {
         this.gameName = gameName;
-        this.scores = scores; // Shallow Copy (ใช้ reference เดิม)
+        this.scores = scores;
     }
 
     public ScoreBoard(ScoreBoard other) {
         this.gameName = other.gameName;
-        // Deep Copy: สร้าง array ใหม่และคัดลอกค่า
         this.scores = new int[other.scores.length];
         for (int i = 0; i < other.scores.length; i++) {
             this.scores[i] = other.scores[i];
@@ -30,33 +31,25 @@ class ScoreBoard {
 
 public class Lab4_14 {
     public static void main(String[] args) {
-        java.util.Scanner scanner = new java.util.Scanner(System.in);
-        
-        // รับชื่อเกม
+        Scanner scanner = new Scanner(System.in);
+
         String gameName = scanner.nextLine();
-        
-        // รับคะแนนเริ่มต้น 3 ค่า
+
         int[] originalScores = new int[3];
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < originalScores.length; i++) {
             originalScores[i] = scanner.nextInt();
         }
-        
-        // รับค่าสำหรับการแก้ไขภายนอก
+
         int externalValue = scanner.nextInt();
-        
-        // 1. สร้าง sb1 ด้วย originalScores (shallow copy)
+
         ScoreBoard sb1 = new ScoreBoard(gameName, originalScores);
-        
-        // 2. สร้าง sb2 โดยใช้ Copy Constructor (deep copy)
         ScoreBoard sb2 = new ScoreBoard(sb1);
-        
-        // 3. แก้ไข Array ต้นฉบับภายนอก
+
         originalScores[0] = externalValue;
-        
-        // 4. แสดงผล
+
         sb1.displayScores();
         sb2.displayScores();
-        
+
         scanner.close();
     }
 }
